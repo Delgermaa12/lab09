@@ -79,4 +79,40 @@ class ScholarshipCalculatorTest {
     @Test void gpaLoopMany_fourScores() {
         assertEquals(2.5, c.gpa(new double[]{95, 85, 75, 65}), 0.001);
     }
+
+    // D heseg
+    @Test 
+    void boundary_60_isD(){ 
+        assertEquals("D", c.letterGrade(60)); 
+    }
+
+    @Test 
+    void boundary_5999_isF(){ 
+        assertEquals("F", c.letterGrade(59.99)); 
+    }
+
+    @Test 
+    void boundary_6999_isD(){ 
+        assertEquals("D", c.letterGrade(69.99)); 
+    }
+
+    @Test
+    void boundary_0_isF(){ 
+        assertEquals("F", c.letterGrade(0)); 
+    }
+
+    @Test 
+    void boundary_100_isA(){ 
+        assertEquals("A", c.letterGrade(100)); 
+    }
+
+    @Test 
+    void boundary_8999_isB(){ 
+        assertEquals("B", c.letterGrade(89.99)); 
+    }
+
+    @Test 
+    void boundary_90_isA(){ 
+        assertEquals("A", c.letterGrade(90)); 
+    }
 }
