@@ -65,4 +65,18 @@ class ScholarshipCalculatorTest {
     }
     @Test void gpaOfCScoreIsTwo() { assertEquals(2.0, c.gpa(new double[]{75}), 0.001); }
     @Test void gpaOfDScoreIsOne() { assertEquals(1.0, c.gpa(new double[]{65}), 0.001); }
+
+    // C heseg
+    @Test void gpaLoopZero_nullThrows() {
+    assertThrows(IllegalArgumentException.class, () -> c.gpa(null));
+    }
+    @Test void gpaLoopZero_emptyThrows() {
+        assertThrows(IllegalArgumentException.class, () -> c.gpa(new double[]{}));
+    }
+    @Test void gpaLoopOne_singleScoreIsFour() {
+        assertEquals(4.0, c.gpa(new double[]{95}), 0.001);
+    }
+    @Test void gpaLoopMany_fourScores() {
+        assertEquals(2.5, c.gpa(new double[]{95, 85, 75, 65}), 0.001);
+    }
 }
