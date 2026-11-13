@@ -31,8 +31,50 @@ ScholarshipCalculatorTest-д зөвхөн хэвийн урсгалын тест
 **Ажиглалт.** Хамгийн муу хамрагдсан функц нь `scholarship` Branch 38%, дараа нь `letterGrade` 41%, `gpa` 54% байна. Улаан (огт хүрээгүй) мөрүүд нь голдуу `IllegalArgumentException` шидэх алдааны замууд бөгөөд happy path тест тэдгээрийг огт дайрдаггүй ба шар ромботой салаанууд нь нөхцөл нэг талаараа л шалгагдсан `if`-үүд байна.
 
 ## Хэсэг B: CFG зурж branch 100% хүрэх
-
-![scholarship() CFG](cfg.jpg)
+  ```mermaid
+flowchart TD
+  S((Start)) --> N1
+  N1{"N1: gpa < 0"}
+  N2{"N2: gpa > 4"}
+  N3{"N3: credits < 0"}
+  N4{"N4: hasViolation"}
+  N5{"N5: gpa >= 3.8"}
+  N6{"N6: credits >= 15"}
+  N7{"N7: gpa >= 3.4"}
+  N8{"N8: credits >= 12"}
+  N9{"N9: gpa >= 3.0"}
+  N10["N10: throw exception"]
+  N11["N11: return 0"]
+  N12["N12: return 100"]
+  N13["N13: return 70"]
+  N14["N14: return 50"]
+  N15["N15: return 0"]
+  E((End))
+  N1 -- "T: negativeGpaThrows" --> N10
+  N1 -- "F: gpaAboveFourThrows" --> N2
+  N2 -- "T: gpaAboveFourThrows" --> N10
+  N2 -- "F: negativeCreditsThrows" --> N3
+  N3 -- "T: negativeCreditsThrows" --> N10
+  N3 -- "F: violationReturnsZero" --> N4
+  N4 -- "T: violationReturnsZero" --> N11
+  N4 -- "F: gpa38Credits15Gives100" --> N5
+  N5 -- "T: gpa38Credits15Gives100" --> N6
+  N5 -- "F: gpa34Credits12Gives70" --> N7
+  N6 -- "T: gpa38Credits15Gives100" --> N12
+  N6 -- "F: gpa38LowCreditsFallsTo70" --> N7
+  N7 -- "T: gpa34Credits12Gives70" --> N8
+  N7 -- "F: gpa30Gives50" --> N9
+  N8 -- "T: gpa34Credits12Gives70" --> N13
+  N8 -- "F: gpa34LowCreditsFallsTo50" --> N9
+  N9 -- "T: gpa30Gives50" --> N14
+  N9 -- "F: lowGpaGivesZero" --> N15
+  N10 --> E
+  N11 --> E
+  N12 --> E
+  N13 --> E
+  N14 --> E
+  N15 --> E
+```
 
 `scholarship()` функцын CFG-г гараар зурж (`cfg.jpg`), нөхцөл бүрийн True/False
 ирмэгт тестийн нэрийг буулгасан: гурван нөхцөлийн exception
